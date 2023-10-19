@@ -1,0 +1,79 @@
+{
+    "GPUS": [0],
+    "LOG_DIR": "log/",
+    "OUTPUT_DIR": "output/",
+    "WORKERS": 8,
+    "CUDNN": {
+        "BENCHMARK": true,
+        "DETERMINISTIC": false,
+        "ENABLED": true
+    },
+    "DATASET": {
+        "DATASET": "t515",
+        "ROOT_PATH": "/mnt/c/Users/xingk/Documents/tdsql_202310102350/t515",
+        "TRAIN_FILE_NAME": "t515_final.csv",
+        "VAL_FILE_NAME": "t515_final.csv",
+        "TIMEENC": 1,
+        "FREQ": "t",
+        "SEQ_LEN": 96,
+        "LABEL_LEN": 48,
+        "PRED_LEN": 24,
+        "COL_NAME_SQL_AMOUNT": ["sql_amount_00","sql_amount_01","sql_amount_02","sql_amount_03","sql_amount_04","sql_amount_05","sql_amount_06","sql_amount_07","sql_amount_08","sql_amount_09","sql_amount_10","sql_amount_11","sql_amount_12","sql_amount_13","sql_amount_14","sql_amount_15"],
+        "COL_NAME_CPU_RATIO": ["cpu_usage_ratio_00","cpu_usage_ratio_01","cpu_usage_ratio_02","cpu_usage_ratio_03","cpu_usage_ratio_04","cpu_usage_ratio_05","cpu_usage_ratio_06","cpu_usage_ratio_07","cpu_usage_ratio_08","cpu_usage_ratio_09","cpu_usage_ratio_10","cpu_usage_ratio_11","cpu_usage_ratio_12","cpu_usage_ratio_13","cpu_usage_ratio_14","cpu_usage_ratio_15"]
+    },
+    "MODEL": {
+        "NAME": "INFORMER",
+        "ENC_IN": 1,
+        "DEC_IN": 1,
+        "C_OUT": 1,
+        "FACTOR": 5,
+        "D_MODEL": 512,
+        "N_HEADS": 8,
+        "E_LAYERS": 2,
+        "D_LAYERS": 1,
+        "D_FF": 2048,
+        "DROPOUT": 0.05,
+        "ATTN": "prob",
+        "EMBED": "timeF",
+        "ACTIVATION": "gelu",
+        "OUTPUT_ATTENTION": false,
+        "DISTIL": true,
+        "MIX": true,
+        "PADDING": 0
+    },
+    "TRAIN": {
+        "BATCH_SIZE_PER_GPU": 32,
+        "BEGIN_EPOCH": 0,
+        "END_EPOCH": 1000,
+        "RESUME": true,
+        "LR_SCHEDULER": {
+            "LR_SCHEDULER": "EARLYSTOPPING",
+            "MultiStepLR": {
+                "LR_FACTOR": 0.1,
+                "LR_STEP": [7, 10, 12]
+            },
+            "EARLYSTOPPING": {
+                "PATIENCE": 3,
+                "DELTA": -0.0001,
+                "MIN_LR": 1e-05,
+                "FLAG": 1
+            },
+            "ExponentialLR": {
+                "EXPONENTIAL_LR_GAMMA": 0.9
+            }
+        },
+        "OPTIMIZER": "adam",
+        "LR": 0.0003,
+        "WD": 0.001,
+        "MOMENTUM": 0.9,
+        "NESTEROV": true,
+        "SHUFFLE": true,
+        "SEED": 3,
+        "LOSS_WEIGHT": 100.0
+    },
+    "TEST": {
+        "BATCH_SIZE_PER_GPU": 32,
+        "MODEL_FILE": ""
+    },
+    "DEBUG": false
+}
